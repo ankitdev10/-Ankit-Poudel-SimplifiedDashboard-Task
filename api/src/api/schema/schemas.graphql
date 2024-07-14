@@ -1,0 +1,22 @@
+type Mutation {
+  createUser(input: CreateUserInput!): CreateUserResult!
+}
+
+type Query {
+  users: UserList!
+}
+
+input CreateUserInput {
+  firstName: String!
+  lastName: String!
+  email: String!
+  phone: String!
+  password: String!
+}
+
+type UserList implements PaginatedList {
+  items: [User!]!
+  totalItems: Int!
+}
+union CreateUserResult = User | UserAlreadyExistsError
+union LoginResult = User | InvalidCredentialsError

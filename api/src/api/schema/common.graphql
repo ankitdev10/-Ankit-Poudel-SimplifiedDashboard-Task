@@ -1,0 +1,56 @@
+scalar DateTime
+scalar JSON
+
+type Success {
+  sucess: Boolean!
+  message: String!
+}
+
+interface PaginatedList {
+  items: [Entity!]!
+  totalItems: Int!
+}
+
+interface Entity {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+#############
+# ERROR TYPES #
+#############
+enum ErrorCode {
+  UNKNOWN_ERROR
+  USER_ALREADY_EXISTS
+  INVALID_CREDENTIALS
+}
+
+interface ErrorResult {
+  errorCode: ErrorCode!
+  message: String!
+}
+
+type UserAlreadyExistsError implements ErrorResult {
+  errorCode: ErrorCode!
+  message: String!
+}
+
+type InvalidCredentialsError implements ErrorResult {
+  errorCode: ErrorCode!
+  message: String!
+}
+
+################
+# ENTITY TYPES #
+################
+
+type User implements Entity {
+  id: ID!
+  firstName: String!
+  lastName: String!
+  email: String!
+  phone: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}

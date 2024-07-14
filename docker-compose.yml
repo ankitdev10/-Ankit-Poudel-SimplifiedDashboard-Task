@@ -1,0 +1,42 @@
+version: "3.8"
+
+services:
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    env_file:
+      - ./api/.env
+    environment:
+      - APP_ENV=dev
+      - API_HOST=localhost
+      - API_PORT=4000
+      - DB_TYPE=postgres
+      - DB_URL=postgres://user:password@db:5432/makers
+    ports:
+      - "4000:4000"
+    depends_on:
+      - db
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: makers
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  db_data:
