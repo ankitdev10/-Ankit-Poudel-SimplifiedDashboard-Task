@@ -1,0 +1,2 @@
+- Run `docker compose down -v` to remove all containers and volumes (Crucial becaue there mighe be postgres instance with same creds already in docker container)
+- Run `docker compose up` to start the containers
