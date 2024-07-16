@@ -15,8 +15,19 @@ const appConfigSchema = z.object({
     migrations: z.array(z.string()),
   }),
 });
+
 export type AppConfig = z.infer<typeof appConfigSchema>;
 export default (): AppConfig => {
+  const DB_TYPE = (process.env.DB_TYPE as any) || "postgres";
+  const POSTGRES_USER = process.env.POSTGRES_USER || "postgres";
+  const POSTGRES_PASSWORD = process.env.POSTGRES_PASSWORD || "postgres";
+  const POSTGRES_HOST = process.env.POSTGRES_HOST || "localhost";
+  const POSTGRES_PORT = process.env.POSTGRES_PORT || "5432";
+  const POSTGRES_DB = process.env.POSTGRES_DB || "postgres";
+
+  const DB_URL = `${DB_TYPE}://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}`;
+
+  console.log(DB_URL);
   const value: AppConfig = {
     apiOptions: {
       host: process.env.API_HOST || "localhost",
@@ -26,7 +37,7 @@ export default (): AppConfig => {
       type: (process.env.DB_TYPE as any) || "postgres",
       synchronize: true,
       logging: false,
-      url: process.env.DB_URL,
+      url: DB_URL,
       migrations: [join(__dirname, "../../migrations/*.ts")],
       // ssl: process.env.DB_SSL === 'true' ? { rejectUnauthorized: false } : false,
     },

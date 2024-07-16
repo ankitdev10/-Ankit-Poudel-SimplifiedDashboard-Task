@@ -1,22 +1,17 @@
-version: "3.8"
-
 services:
   api:
     build:
       context: ./api
       dockerfile: Dockerfile
     env_file:
-      - ./api/.env
-    environment:
-      - APP_ENV=dev
-      - API_HOST=0.0.0.0
-      - API_PORT=4000
-      - DB_TYPE=postgres
-      - DB_URL=postgres://user:password@db:5432/makers
+      - ./api/.env # Use the .env file from the 'api' directory
+
     ports:
       - "4000:4000"
     depends_on:
       - db
+    networks:
+      - simplifiednetwork
 
   client:
     build:
@@ -26,17 +21,21 @@ services:
       - "3000:3000"
     depends_on:
       - api
+    networks:
+      - simplifiednetwork
 
   db:
     image: postgres:13
-    environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: makers
+    env_file:
+      - ./api/.env
     volumes:
       - db_data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
+    networks:
+      - simplifiednetwork
 
 volumes:
   db_data:
+
+networks:
+  simplifiednetwork:
+    driver: bridge
