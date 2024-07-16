@@ -1,21 +1,30 @@
-import { Injectable } from '@nestjs/common';
-import { hashSync } from 'bcryptjs';
-import { RequestContext } from 'src/api/request-context';
-import { UserAlreadyExistsError } from 'src/common/errors/error';
-import { User } from 'src/entities/user.entity';
-import { CreateUserInput, ErrorResult } from 'src/generated';
-import { DataSource, Repository } from 'typeorm';
-import { ListQueryBuilder } from './common/list-query-builder';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+  UnauthorizedException,
+} from "@nestjs/common";
+import { JwtService } from "@nestjs/jwt";
+import { compare, hashSync } from "bcryptjs";
+import { RequestContext } from "src/api/request-context";
+import {
+  InvalidCredentialsError,
+  UserAlreadyExistsError,
+} from "src/common/errors/error";
+import { User } from "src/entities/user.entity";
+import { CreateUserInput, ErrorResult, UpdateUserInput } from "src/generated";
+import { ListQueryBuilder } from "./common/list-query-builder";
+import { TransactionalConnection } from "./common/transaction-connection.service";
+import { ConfigService } from "@nestjs/config";
 
 @Injectable()
 export class UserService {
-  private userRepo: Repository<User>;
   constructor(
-    private dataSource: DataSource,
+    private connection: TransactionalConnection,
     private listQueryBuilder: ListQueryBuilder,
-  ) {
-    this.userRepo = this.dataSource.getRepository(User);
-  }
+    private jwtService: JwtService,
+    private configService: ConfigService,
+  ) {}
 
   async createUser(
     _ctx: RequestContext,
@@ -31,7 +40,7 @@ export class UserService {
       ...input,
       password: hashPw,
     });
-    const userr = await this.userRepo.save(user);
+    const userr = await this.connection.getRepository(User).save(user);
     console.log({ userr });
 
     return user;
@@ -45,9 +54,94 @@ export class UserService {
     return users;
   }
 
+  async login(ctx: RequestContext, username: string, password: string) {
+    const user = await this.findOneByEmail(username);
+    if (!user) {
+      return new InvalidCredentialsError();
+    }
+
+    const isValid = await compare(password, user.password);
+    if (!isValid) {
+      return new InvalidCredentialsError();
+    }
+    delete user.password;
+    const token = await this.jwtService.sign(
+      { user },
+      {
+        secret: this.configService.get<string>("JWT_SECRET"),
+      },
+    );
+    ctx.res.header("Authorization", `Bearer ${token}`);
+
+    ctx.user = user;
+    return user;
+  }
+
+  async getSession(token: string): Promise<any> {
+    let user: User | undefined = undefined;
+    try {
+      const payload = await this.jwtService.verifyAsync(token.split(" ")[1], {
+        secret: this.configService.get<string>("JWT_SECRET"),
+      });
+      if (!payload) throw new UnauthorizedException();
+
+      user = await this.connection.getRepository(User).findOne({
+        where: {
+          id: payload.id,
+        },
+      });
+    } catch (err) {
+      console.log(err);
+      throw new UnauthorizedException();
+    }
+
+    return user;
+  }
+
+  async deleteUser(ctx: RequestContext, id: string) {
+    const user = await this.findOneById(id);
+    if (!user) {
+      throw new NotFoundException();
+    }
+
+    if (user.id !== ctx.user.id) {
+      throw new UnauthorizedException();
+    }
+
+    const res = await this.connection.getRepository(User).delete(id);
+
+    if (!res.affected) {
+      throw new InternalServerErrorException();
+    }
+
+    return { success: true, message: "User deleted successfully" };
+  }
+
+  async updateUser(ctx: RequestContext, id: string, input: UpdateUserInput) {
+    const user = await this.findOneById(id);
+    if (!user) {
+      throw new NotFoundException();
+    }
+    if (user.id !== ctx.user.id) {
+      throw new UnauthorizedException();
+    }
+    const updatedUser = await this.connection.getRepository(User).save({
+      ...user,
+      ...input,
+    });
+    return updatedUser;
+  }
+
   // HELPERS
+
+  async findOneById(id: string) {
+    return this.connection.getRepository(User).findOne({
+      where: { id },
+    });
+  }
+
   async findOneByEmail(email: string) {
-    return this.userRepo.findOne({
+    return this.connection.getRepository(User).findOne({
       where: { email },
     });
   }

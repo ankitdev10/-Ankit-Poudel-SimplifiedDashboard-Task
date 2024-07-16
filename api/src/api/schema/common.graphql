@@ -6,6 +6,11 @@ type Success {
   message: String!
 }
 
+type DeletionResponse {
+  success: Boolean!
+  message: String!
+}
+
 interface PaginatedList {
   items: [Entity!]!
   totalItems: Int!

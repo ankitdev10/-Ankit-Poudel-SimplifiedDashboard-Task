@@ -26,6 +26,12 @@ export type CreateUserInput = {
 
 export type CreateUserResult = User | UserAlreadyExistsError;
 
+export type DeletionResponse = {
+  __typename?: 'DeletionResponse';
+  message: Scalars['String']['output'];
+  success: Scalars['Boolean']['output'];
+};
+
 export type Entity = {
   createdAt: Scalars['DateTime']['output'];
   id: Scalars['ID']['output'];
@@ -53,12 +59,32 @@ export type LoginResult = InvalidCredentialsError | User;
 
 export type Mutation = {
   __typename?: 'Mutation';
-  createUser: User;
+  createUser: CreateUserResult;
+  deleteUser: DeletionResponse;
+  login: LoginResult;
+  updateUser: User;
 };
 
 
 export type MutationCreateUserArgs = {
   input: CreateUserInput;
+};
+
+
+export type MutationDeleteUserArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationLoginArgs = {
+  password: Scalars['String']['input'];
+  username: Scalars['String']['input'];
+};
+
+
+export type MutationUpdateUserArgs = {
+  id: Scalars['ID']['input'];
+  input: UpdateUserInput;
 };
 
 export type PaginatedList = {
@@ -68,13 +94,21 @@ export type PaginatedList = {
 
 export type Query = {
   __typename?: 'Query';
-  users: Array<User>;
+  users: UserList;
 };
 
 export type Success = {
   __typename?: 'Success';
   message: Scalars['String']['output'];
   sucess: Scalars['Boolean']['output'];
+};
+
+export type UpdateUserInput = {
+  email?: InputMaybe<Scalars['String']['input']>;
+  firstName?: InputMaybe<Scalars['String']['input']>;
+  lastName?: InputMaybe<Scalars['String']['input']>;
+  password?: InputMaybe<Scalars['String']['input']>;
+  phone?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type User = Entity & {
@@ -92,4 +126,10 @@ export type UserAlreadyExistsError = ErrorResult & {
   __typename?: 'UserAlreadyExistsError';
   errorCode: ErrorCode;
   message: Scalars['String']['output'];
+};
+
+export type UserList = PaginatedList & {
+  __typename?: 'UserList';
+  items: Array<User>;
+  totalItems: Scalars['Int']['output'];
 };

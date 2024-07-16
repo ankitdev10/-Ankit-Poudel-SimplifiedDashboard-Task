@@ -1,5 +1,8 @@
 type Mutation {
   createUser(input: CreateUserInput!): CreateUserResult!
+  deleteUser(id: ID!): DeletionResponse!
+  updateUser(id: ID!, input: UpdateUserInput!): User!
+  login(username: String!, password: String!): LoginResult!
 }
 
 type Query {
@@ -12,6 +15,14 @@ input CreateUserInput {
   email: String!
   phone: String!
   password: String!
+}
+
+input UpdateUserInput {
+  firstName: String
+  lastName: String
+  email: String
+  phone: String
+  password: String
 }
 
 type UserList implements PaginatedList {

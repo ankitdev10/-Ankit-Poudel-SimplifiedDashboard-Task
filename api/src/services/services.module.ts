@@ -1,9 +1,15 @@
-import { Module } from '@nestjs/common';
-import { TransactionalConnection } from './common/transaction-connection.service';
-import { UserService } from './user.service';
-import { ListQueryBuilder } from './common/list-query-builder';
+import { Module } from "@nestjs/common";
+import { JwtService } from "@nestjs/jwt";
+import { ListQueryBuilder } from "./common/list-query-builder";
+import { TransactionalConnection } from "./common/transaction-connection.service";
+import { UserService } from "./user.service";
 
-const services = [UserService, TransactionalConnection, ListQueryBuilder];
+const services = [
+  UserService,
+  TransactionalConnection,
+  ListQueryBuilder,
+  JwtService,
+];
 @Module({
   imports: [],
   controllers: [],
