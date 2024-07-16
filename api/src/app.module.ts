@@ -1,4 +1,4 @@
-import { Module } from "@nestjs/common";
+import { Module, OnModuleInit } from "@nestjs/common";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { TypeOrmModule, TypeOrmModuleOptions } from "@nestjs/typeorm";
 import { ApiModule } from "./api/api.module";
@@ -43,4 +43,8 @@ import { JwtModule } from "@nestjs/jwt";
   ],
   providers: [],
 })
-export class AppModule {}
+export class AppModule implements OnModuleInit {
+  onModuleInit() {
+    console.log("AppModule initialized");
+  }
+}

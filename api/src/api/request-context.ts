@@ -1,5 +1,5 @@
-import { Request, Response } from 'express';
-import { User } from '../entities/user.entity';
+import { Request, Response } from "express";
+import { User } from "../entities/user.entity";
 
 export class RequestContext {
   private readonly _req: Request;

@@ -59,3 +59,28 @@ type User implements Entity {
   createdAt: DateTime!
   updatedAt: DateTime!
 }
+
+type Project implements Entity {
+  id: ID!
+  name: String!
+  description: String!
+  price: Int!
+  status: ProjectStatus!
+  dueDate: DateTime!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  manager: User!
+  progess: Int!
+}
+
+type ProjectList implements PaginatedList {
+  items: [Project!]!
+  totalItems: Int!
+}
+
+enum ProjectStatus {
+  COMPLETED
+  DELAYED
+  ONGOING
+  AT_RISK
+}

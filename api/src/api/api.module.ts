@@ -9,8 +9,9 @@ import { UserResolver } from "./resolvers/user.resolver";
 import { UserService } from "src/services/user.service";
 import { APP_GUARD } from "@nestjs/core";
 import { AuthGuard } from "./auth-guard";
+import { ProjectResolver } from "./resolvers/project.resolver";
 
-const resolvers = [UserResolver];
+const resolvers = [UserResolver, ProjectResolver];
 
 @Module({
   imports: [

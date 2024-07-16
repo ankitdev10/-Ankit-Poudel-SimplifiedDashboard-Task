@@ -16,6 +16,15 @@ export type Scalars = {
   JSON: { input: any; output: any; }
 };
 
+export type CreateProjectInput = {
+  category: Scalars['String']['input'];
+  description: Scalars['String']['input'];
+  managerId: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
+  price: Scalars['Int']['input'];
+  status: ProjectStatus;
+};
+
 export type CreateUserInput = {
   email: Scalars['String']['input'];
   firstName: Scalars['String']['input'];
@@ -59,15 +68,28 @@ export type LoginResult = InvalidCredentialsError | User;
 
 export type Mutation = {
   __typename?: 'Mutation';
+  createProject: Project;
   createUser: CreateUserResult;
+  deleteProject: DeletionResponse;
   deleteUser: DeletionResponse;
   login: LoginResult;
+  updateProject: Project;
   updateUser: User;
+};
+
+
+export type MutationCreateProjectArgs = {
+  input: CreateProjectInput;
 };
 
 
 export type MutationCreateUserArgs = {
   input: CreateUserInput;
+};
+
+
+export type MutationDeleteProjectArgs = {
+  id: Scalars['ID']['input'];
 };
 
 
@@ -82,6 +104,12 @@ export type MutationLoginArgs = {
 };
 
 
+export type MutationUpdateProjectArgs = {
+  id: Scalars['ID']['input'];
+  input: UpdateProjectInput;
+};
+
+
 export type MutationUpdateUserArgs = {
   id: Scalars['ID']['input'];
   input: UpdateUserInput;
@@ -92,15 +120,70 @@ export type PaginatedList = {
   totalItems: Scalars['Int']['output'];
 };
 
+export type Project = Entity & {
+  __typename?: 'Project';
+  createdAt: Scalars['DateTime']['output'];
+  description: Scalars['String']['output'];
+  dueDate: Scalars['DateTime']['output'];
+  id: Scalars['ID']['output'];
+  manager: User;
+  name: Scalars['String']['output'];
+  price: Scalars['Int']['output'];
+  progess: Scalars['Int']['output'];
+  status: ProjectStatus;
+  updatedAt: Scalars['DateTime']['output'];
+};
+
+export type ProjectList = PaginatedList & {
+  __typename?: 'ProjectList';
+  items: Array<Project>;
+  totalItems: Scalars['Int']['output'];
+};
+
+export type ProjectListOptions = {
+  manager: Scalars['ID']['input'];
+  name?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<ProjectStatus>;
+};
+
+export enum ProjectStatus {
+  AT_RISK = 'AT_RISK',
+  COMPLETED = 'COMPLETED',
+  DELAYED = 'DELAYED',
+  ONGOING = 'ONGOING'
+}
+
 export type Query = {
   __typename?: 'Query';
+  project: Project;
+  projects: ProjectList;
   users: UserList;
+};
+
+
+export type QueryProjectArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type QueryProjectsArgs = {
+  options?: InputMaybe<ProjectListOptions>;
 };
 
 export type Success = {
   __typename?: 'Success';
   message: Scalars['String']['output'];
   sucess: Scalars['Boolean']['output'];
+};
+
+export type UpdateProjectInput = {
+  description?: InputMaybe<Scalars['String']['input']>;
+  id: Scalars['ID']['input'];
+  managerId?: InputMaybe<Scalars['ID']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  price?: InputMaybe<Scalars['Int']['input']>;
+  progress?: InputMaybe<Scalars['Int']['input']>;
+  status?: InputMaybe<ProjectStatus>;
 };
 
 export type UpdateUserInput = {

@@ -3,10 +3,15 @@ type Mutation {
   deleteUser(id: ID!): DeletionResponse!
   updateUser(id: ID!, input: UpdateUserInput!): User!
   login(username: String!, password: String!): LoginResult!
+  createProject(input: CreateProjectInput!): Project!
+  updateProject(id: ID!, input: UpdateProjectInput!): Project!
+  deleteProject(id: ID!): DeletionResponse!
 }
 
 type Query {
   users: UserList!
+  projects(options: ProjectListOptions): ProjectList!
+  project(id: ID!): Project!
 }
 
 input CreateUserInput {
@@ -25,9 +30,40 @@ input UpdateUserInput {
   password: String
 }
 
+input CreateProjectInput {
+  name: String!
+  description: String!
+  category: String!
+  price: Int!
+  managerId: ID!
+  status: ProjectStatus!
+}
+
+input UpdateProjectInput {
+  id: ID!
+  name: String
+  description: String
+  status: ProjectStatus
+  price: Int
+  progress: Int
+  managerId: ID
+}
+
+input ProjectListOptions {
+  name: String
+  status: ProjectStatus
+  manager: ID!
+}
+
 type UserList implements PaginatedList {
   items: [User!]!
   totalItems: Int!
 }
+
+type ProjectList implements PaginatedList {
+  items: [Project!]!
+  totalItems: Int!
+}
+
 union CreateUserResult = User | UserAlreadyExistsError
 union LoginResult = User | InvalidCredentialsError
