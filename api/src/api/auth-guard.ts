@@ -25,6 +25,11 @@ export class AuthGuard implements CanActivate {
     ]);
 
     if (isPublic) return true;
+
+    // do not have authorization if in dev mode for easiertesting
+
+    if (this.configService.get<string>("APP_ENV") === "dev") return true;
+
     const ctx = GqlExecutionContext.create(context).getContext();
     const token = this.extractTokenFromHeader(ctx);
     if (!token) throw new UnauthorizedException();
