@@ -33,8 +33,10 @@ The api directory contains the backend code and the client directory contains th
 
 # With docker
 
+A little side note. There are two ways to run compose file. One is using docker-compose and another is using docker compose. One is written in Python while other is written in go.
+
 ```bash
-Make sure to use docker compose and not docker-compose
+Prefarably please use docker compose and not docker-compose(I have incosistent issue with docker-compose. You may not face the issue)
 
 - Run `docker compose down -v` to remove all containers and volumes (Crucial becaue there might be postgres instance with same creds already in docker container)
 - Run `docker compose build --no-cache` to build the containers

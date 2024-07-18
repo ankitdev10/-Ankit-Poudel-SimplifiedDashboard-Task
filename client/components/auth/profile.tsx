@@ -18,10 +18,13 @@ export const Profile = async () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button className="rounded-3xl  flex space-x-2 bg-white hover:bg-white">
+        <Button
+          name="profile"
+          className="rounded-3xl  flex space-x-2 bg-white hover:bg-white"
+        >
           <div>
             <Avatar className="size-8">
-              <AvatarImage src="https://github.com/shadcn.png" />
+              <AvatarImage alt="avatar" src="https://github.com/shadcn.png" />
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
           </div>
@@ -30,7 +33,7 @@ export const Profile = async () => {
               <span>
                 {data?.firstName} {data?.lastName}
               </span>
-              <span className="text-accent-foreground/50">Project Manager</span>
+              <span className="">Project Manager</span>
             </div>
           </div>
           <div>

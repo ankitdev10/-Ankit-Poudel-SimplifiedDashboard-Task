@@ -13,10 +13,8 @@ export const MetricCard = ({ data, Icon }: CardWithFormProps) => {
     <Card className="bg-card-offwhite">
       <CardContent className="py-4 space-y-4">
         {Icon}
-        <h5 className="text-muted-foreground font-medium text-sm">
-          {data.type}
-        </h5>
-        <h6 className="text-xl font-semibold">{data.value}</h6>
+        <h2 className="font-medium text-sm">{data.type}</h2>
+        <h3 className="text-xl font-semibold">{data.value}</h3>
       </CardContent>
     </Card>
   );

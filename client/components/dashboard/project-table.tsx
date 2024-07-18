@@ -22,7 +22,7 @@ export const ProjectTable = ({ title, data }: ProjectTableProps) => {
       <Card className="bg-card-offwhite">
         <CardHeader className="">
           <div className="flex items-center justify-between">
-            <h5 className="hidden md:block">{title}</h5>
+            <h4 className="hidden md:block">{title}</h4>
             <Suspense>
               <div className="flex gap-x-1 md:gap-x-4 items-center">
                 <ProjectFilters />

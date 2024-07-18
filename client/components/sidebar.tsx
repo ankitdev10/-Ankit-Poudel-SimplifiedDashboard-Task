@@ -1,10 +1,10 @@
 "use client";
-import { PlusIcon } from "lucide-react";
-import { Button } from "./ui/button";
 import { NAV_LINKS } from "@/config/site";
+import { cn } from "@/lib/utils";
+import { PlusIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { cn } from "@/lib/utils";
+import { Button } from "./ui/button";
 
 export const Sidebar = () => {
   const pathName = usePathname();
@@ -28,10 +28,10 @@ export const Sidebar = () => {
           {NAV_LINKS.map((item, index) => {
             const Icon = item.icon;
             return (
-              <div className="" key={index}>
+              <li className="" key={index}>
                 <Link
                   className={cn("flex space-x-4 items-center p-4", {
-                    "rounded-3xl bg-white text-primary-orange": paths.includes(
+                    "rounded-3xl bg-white  text-primary-orange": paths.includes(
                       item.label.toLowerCase(),
                     ),
                   })}
@@ -40,7 +40,7 @@ export const Sidebar = () => {
                   <Icon size={20} />
                   <span>{item.label}</span>
                 </Link>
-              </div>
+              </li>
             );
           })}
         </ul>

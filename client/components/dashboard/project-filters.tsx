@@ -32,7 +32,7 @@ export const ProjectFilters = () => {
         }}
         defaultValue={searchParams.get("status") ?? ""}
       >
-        <SelectTrigger className="">
+        <SelectTrigger aria-label="status-trigger" className="">
           <SelectValue placeholder="Status" />
         </SelectTrigger>
         <SelectContent>
@@ -53,7 +53,7 @@ export const ProjectFilters = () => {
         }}
         defaultValue={searchParams.get("page") ?? ""}
       >
-        <SelectTrigger className="w-[180px]">
+        <SelectTrigger aria-label="page-trigger" className="w-[180px]">
           <SelectValue placeholder="Page" />
         </SelectTrigger>
         <SelectContent>
