@@ -4,12 +4,12 @@ FROM node:18
 WORKDIR /usr/src/app
 
 COPY package*.json ./
-RUN yarn install
+RUN npm install
 
 COPY . .
 
-RUN yarn build
+RUN npm run build
 
 EXPOSE 4000
 
-CMD ["yarn", "start:prod"]
+CMD ["npm", "run", "start:prod"]

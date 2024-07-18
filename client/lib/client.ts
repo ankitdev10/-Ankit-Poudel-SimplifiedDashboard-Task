@@ -14,7 +14,7 @@ const afterwareLink = new ApolloLink((operation, forward) =>
     const {
       response: { headers },
     } = operation.getContext();
-
+    console.log(BACKEND_URL);
     if (headers) {
       const cookieStore = cookies();
 

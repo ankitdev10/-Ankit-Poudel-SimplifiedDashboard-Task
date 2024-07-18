@@ -61,7 +61,14 @@ export const LoginForm = () => {
 
   const rootError = form.formState.errors.root?.message;
   return (
-    <div className="flex flex-col max-h-screen justify-center  items-center p-8 md:p-12">
+    <div className="flex flex-col relative max-h-screen justify-center  items-center p-8 md:p-12">
+      <div className="absolute top-0 left-0 p-8">
+        <h5>Test Creds</h5>
+        Username: superadmin
+        <br />
+        Password: password123
+      </div>
+
       <Form {...form}>
         <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-center">
           Welcome Back!

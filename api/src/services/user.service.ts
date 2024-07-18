@@ -55,6 +55,7 @@ export class UserService {
 
   async login(ctx: RequestContext, username: string, password: string) {
     const user = await this.findOneByEmail(username);
+    console.log("logged in", user);
     if (!user) {
       return new InvalidCredentialsError();
     }

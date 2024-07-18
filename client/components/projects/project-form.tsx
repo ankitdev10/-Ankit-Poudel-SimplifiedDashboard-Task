@@ -177,6 +177,7 @@ export const ProjectForm = ({
               </FormItem>
             )}
           />
+          {}
           {data?.length && (
             <Popover open={open} onOpenChange={setOpen}>
               <PopoverTrigger
@@ -204,7 +205,7 @@ export const ProjectForm = ({
                       data?.map((user) => (
                         <CommandList key={user?.value}>
                           <CommandItem
-                            value={user?.value}
+                            value={user?.label}
                             onSelect={() => {
                               setValue(user.value === value ? "" : user.value);
                               setOpen(false);

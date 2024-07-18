@@ -28,7 +28,7 @@ export class AuthGuard implements CanActivate {
 
     // do not have authorization if in dev mode for easiertesting
 
-    if (this.configService.get<string>("APP_ENV") === "dev") return true;
+    // if (this.configService.get<string>("APP_ENV") === "dev") return true;
 
     const ctx = GqlExecutionContext.create(context).getContext();
     const token = this.extractTokenFromHeader(ctx);
@@ -37,7 +37,7 @@ export class AuthGuard implements CanActivate {
       const payload = await this.jwtService.verifyAsync(token, {
         secret: this.configService.get<string>("JWT_SECRET") ?? "test",
       });
-
+      console.log(payload);
       if (!payload) throw new UnauthorizedException();
     } catch (err) {
       throw new UnauthorizedException();
