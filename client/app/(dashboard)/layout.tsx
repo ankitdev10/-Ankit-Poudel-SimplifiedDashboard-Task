@@ -1,4 +1,5 @@
 import { DashboardHeader } from "@/components/dashboard-header";
+import { MobileSidebar } from "@/components/mobile-sidebar";
 import { Sidebar } from "@/components/sidebar";
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
@@ -8,6 +9,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
         <div className="sticky hidden md:block left-0 top-0 z-10 h-screen">
           <Sidebar />
         </div>
+
         <div className="bg-offwhite">
           <DashboardHeader />
           {children}

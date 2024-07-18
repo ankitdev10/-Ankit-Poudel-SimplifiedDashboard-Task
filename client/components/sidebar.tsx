@@ -11,7 +11,7 @@ export const Sidebar = () => {
 
   const paths = pathName.split("/").filter(Boolean);
   return (
-    <aside className="px-12 py-10 min-h-screen bg-black text-white">
+    <aside className="px-6 py-8 md:px-12 md:py-10 min-h-screen md:bg-black md:text-white">
       <h2 className="text-xl font-medium text-center">The Makers</h2>
 
       <div className="mt-12">
