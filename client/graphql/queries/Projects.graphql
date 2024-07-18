@@ -1,0 +1,9 @@
+query Projects {
+  projects {
+    items {
+      id
+      name
+      description
+    }
+  }
+}
