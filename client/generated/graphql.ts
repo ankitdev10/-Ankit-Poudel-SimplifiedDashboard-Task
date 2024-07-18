@@ -20,9 +20,11 @@ export type Scalars = {
 export type CreateProjectInput = {
   category: Scalars['String']['input'];
   description: Scalars['String']['input'];
+  dueDate: Scalars['DateTime']['input'];
   managerId: Scalars['ID']['input'];
   name: Scalars['String']['input'];
   price: Scalars['Int']['input'];
+  progress?: InputMaybe<Scalars['Int']['input']>;
   status: ProjectStatus;
 };
 
@@ -66,6 +68,12 @@ export type InvalidCredentialsError = ErrorResult & {
 };
 
 export type LoginResult = InvalidCredentialsError | User;
+
+export type MetricData = {
+  __typename?: 'MetricData';
+  type: Scalars['String']['output'];
+  value: Scalars['String']['output'];
+};
 
 export type Mutation = {
   __typename?: 'Mutation';
@@ -121,6 +129,11 @@ export type PaginatedList = {
   totalItems: Scalars['Int']['output'];
 };
 
+export type PaginationOptions = {
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+};
+
 export type Project = Entity & {
   __typename?: 'Project';
   createdAt: Scalars['DateTime']['output'];
@@ -130,7 +143,7 @@ export type Project = Entity & {
   manager: User;
   name: Scalars['String']['output'];
   price: Scalars['Int']['output'];
-  progess: Scalars['Int']['output'];
+  progress: Scalars['Int']['output'];
   status: ProjectStatus;
   updatedAt: Scalars['DateTime']['output'];
 };
@@ -142,8 +155,8 @@ export type ProjectList = PaginatedList & {
 };
 
 export type ProjectListOptions = {
-  manager: Scalars['ID']['input'];
-  status: ProjectStatus;
+  pagination?: InputMaybe<PaginationOptions>;
+  status?: InputMaybe<ProjectStatus>;
 };
 
 export enum ProjectStatus {
@@ -156,6 +169,7 @@ export enum ProjectStatus {
 export type Query = {
   __typename?: 'Query';
   me?: Maybe<User>;
+  metrics: Array<Maybe<MetricData>>;
   project: Project;
   projects: ProjectList;
   users: UserList;
@@ -231,12 +245,20 @@ export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: string, firstName: string, lastName: string } | null };
 
-export type ProjectsQueryVariables = Exact<{ [key: string]: never; }>;
+export type MetricsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ProjectsQuery = { __typename?: 'Query', projects: { __typename?: 'ProjectList', items: Array<{ __typename?: 'Project', id: string, name: string, description: string }> } };
+export type MetricsQuery = { __typename?: 'Query', metrics: Array<{ __typename?: 'MetricData', type: string, value: string } | null> };
+
+export type ProjectsQueryVariables = Exact<{
+  options?: InputMaybe<ProjectListOptions>;
+}>;
+
+
+export type ProjectsQuery = { __typename?: 'Query', projects: { __typename?: 'ProjectList', totalItems: number, items: Array<{ __typename?: 'Project', id: string, name: string, dueDate: any, status: ProjectStatus, progress: number, manager: { __typename?: 'User', id: string, firstName: string, lastName: string, email: string } }> } };
 
 
 export const LoginDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"Login"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"username"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"password"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"login"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"username"},"value":{"kind":"Variable","name":{"kind":"Name","value":"username"}}},{"kind":"Argument","name":{"kind":"Name","value":"password"},"value":{"kind":"Variable","name":{"kind":"Name","value":"password"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"User"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"InvalidCredentialsError"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"}}]}}]}}]}}]} as unknown as DocumentNode<LoginMutation, LoginMutationVariables>;
 export const MeDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Me"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"me"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}}]}}]}}]} as unknown as DocumentNode<MeQuery, MeQueryVariables>;
-export const ProjectsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Projects"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"projects"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}}]}}]}}]}}]} as unknown as DocumentNode<ProjectsQuery, ProjectsQueryVariables>;
+export const MetricsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Metrics"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"metrics"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}}]}}]} as unknown as DocumentNode<MetricsQuery, MetricsQueryVariables>;
+export const ProjectsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Projects"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"options"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"ProjectListOptions"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"projects"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"options"},"value":{"kind":"Variable","name":{"kind":"Name","value":"options"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"totalItems"}},{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"dueDate"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"progress"}},{"kind":"Field","name":{"kind":"Name","value":"manager"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"email"}}]}}]}}]}}]}}]} as unknown as DocumentNode<ProjectsQuery, ProjectsQueryVariables>;

@@ -5,7 +5,9 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       <main className="grid grid-cols-[300px_1fr]">
-        <Sidebar />
+        <div className="sticky left-0 top-0 z-10 h-screen">
+          <Sidebar />
+        </div>
         <div className="bg-offwhite">
           <DashboardHeader />
           {children}

@@ -53,6 +53,7 @@ const config = {
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
+          offwhite: "#f3eae5",
         },
       },
       borderRadius: {
@@ -80,4 +81,3 @@ const config = {
 } satisfies Config;
 
 export default config;
-

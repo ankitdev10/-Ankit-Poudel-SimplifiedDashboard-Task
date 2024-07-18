@@ -1,9 +1,18 @@
-query Projects {
-  projects {
+query Projects($options: ProjectListOptions) {
+  projects(options: $options) {
+    totalItems
     items {
       id
       name
-      description
+      dueDate
+      status
+      progress
+      manager {
+        id
+        firstName
+        lastName
+        email
+      }
     }
   }
 }
