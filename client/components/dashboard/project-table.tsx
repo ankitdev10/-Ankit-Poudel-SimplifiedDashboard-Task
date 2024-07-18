@@ -73,19 +73,27 @@ const CustomStatusBadge = ({ status }: { status: ProjectStatus }) => {
   return (
     <div>
       {status === "COMPLETED" && (
-        <Badge className="bg-green-100 text-green-800 py-1">Completed</Badge>
+        <Badge className="bg-green-100 text-green-800 py-1 hover:bg-green-200">
+          Completed
+        </Badge>
       )}
 
       {status === "DELAYED" && (
-        <Badge className="bg-yellow-100 text-yellow-800 py-1">Delayed</Badge>
+        <Badge className="bg-yellow-100 text-yellow-800 py-1 hover:bg-yellow-200">
+          Delayed
+        </Badge>
       )}
 
       {status === "ONGOING" && (
-        <Badge className="bg-orange-100 text-orange-800 py-1">Ongoing</Badge>
+        <Badge className="bg-orange-100 text-orange-800 py-1 hover:bg-orange-200">
+          Ongoing
+        </Badge>
       )}
 
       {status === "AT_RISK" && (
-        <Badge className="bg-red-100 text-red-800 py-1">At Risk</Badge>
+        <Badge className="bg-red-100 text-red-800 py-1 hover:bg-red-200">
+          At Risk
+        </Badge>
       )}
     </div>
   );

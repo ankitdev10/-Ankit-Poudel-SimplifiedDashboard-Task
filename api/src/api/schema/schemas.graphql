@@ -35,7 +35,6 @@ input UpdateUserInput {
 input CreateProjectInput {
   name: String!
   description: String!
-  category: String!
   price: Int!
   managerId: ID!
   status: ProjectStatus!

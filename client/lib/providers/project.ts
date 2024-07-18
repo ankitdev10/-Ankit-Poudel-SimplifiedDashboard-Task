@@ -1,6 +1,11 @@
 "use server";
 
-import { ProjectListOptions, ProjectsDocument } from "@/generated/graphql";
+import {
+  CreateProjectDocument,
+  CreateProjectInput,
+  ProjectListOptions,
+  ProjectsDocument,
+} from "@/generated/graphql";
 import { getClient } from "../client";
 
 export const getProjects = async (options: ProjectListOptions) => {
@@ -16,3 +21,17 @@ export const getProjects = async (options: ProjectListOptions) => {
     throw new Error((err as Error).message);
   }
 };
+
+export async function createProject(input: CreateProjectInput) {
+  try {
+    const res = await getClient().mutate({
+      mutation: CreateProjectDocument,
+      variables: {
+        input,
+      },
+    });
+    return res.data;
+  } catch (err) {
+    throw new Error((err as Error).message);
+  }
+}

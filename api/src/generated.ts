@@ -19,9 +19,11 @@ export type Scalars = {
 export type CreateProjectInput = {
   category: Scalars['String']['input'];
   description: Scalars['String']['input'];
+  dueDate: Scalars['DateTime']['input'];
   managerId: Scalars['ID']['input'];
   name: Scalars['String']['input'];
   price: Scalars['Int']['input'];
+  progress?: InputMaybe<Scalars['Int']['input']>;
   status: ProjectStatus;
 };
 
@@ -140,7 +142,7 @@ export type Project = Entity & {
   manager: User;
   name: Scalars['String']['output'];
   price: Scalars['Int']['output'];
-  progess: Scalars['Int']['output'];
+  progress: Scalars['Int']['output'];
   status: ProjectStatus;
   updatedAt: Scalars['DateTime']['output'];
 };

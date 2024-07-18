@@ -15,12 +15,14 @@ export const Sidebar = () => {
       <h2 className="text-xl font-medium text-center">The Makers</h2>
 
       <div className="mt-12">
-        <Button className="bg-white flex rounded-3xl space-x-2  py-6 text-black hover:bg-white">
-          <span className="bg-primary-orange  text-white p-1 rounded-full">
-            <PlusIcon size={20} />
-          </span>
-          <span className=""> Create new project</span>
-        </Button>
+        <Link href="/projects/new">
+          <Button className="bg-white flex rounded-3xl space-x-2  py-6 text-black hover:bg-white">
+            <span className="bg-primary-orange  text-white p-1 rounded-full">
+              <PlusIcon size={20} />
+            </span>
+            <span className=""> Create new project</span>
+          </Button>
+        </Link>
 
         <ul className="mt-12 space-y-4">
           {NAV_LINKS.map((item, index) => {

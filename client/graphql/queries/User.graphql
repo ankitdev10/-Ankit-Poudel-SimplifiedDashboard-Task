@@ -1,0 +1,9 @@
+query Users {
+  users {
+    items {
+      id
+      firstName
+      lastName
+    }
+  }
+}

@@ -20,6 +20,7 @@ export class ProjectService {
   ) {}
 
   async createProject(ctx: RequestContext, input: CreateProjectInput) {
+    console.log(input);
     const manager = await this.userService.findOneById(input.managerId);
     if (!manager) {
       throw new NotFoundException("Manager not found");
@@ -30,6 +31,8 @@ export class ProjectService {
       price: input.price * 100,
       manager,
     });
+
+    console.log(project);
     return await this.connection.getRepository(Project).save(project);
   }
 

@@ -52,7 +52,7 @@ export const LoginForm = () => {
         password: values.password,
       });
       if (res?.login.__typename === "User") {
-        router.push("/");
+        router.push("/dashboard");
       } else if (res?.login.__typename === "InvalidCredentialsError") {
         toast.error(res.login.message);
       }
