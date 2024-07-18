@@ -24,12 +24,12 @@ export class MetricsService {
 
     return [
       {
-        type: "Revenue",
-        value: totalRevenue.total.toString(),
+        type: "Total Revenue",
+        value: `$${totalRevenue.total}`,
       },
       {
         type: "Projects",
-        value: `${totalCompletedProjects}-${totalProjects}`,
+        value: `${totalCompletedProjects}/${totalProjects}`,
       },
     ];
   }

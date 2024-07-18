@@ -39,6 +39,8 @@ input CreateProjectInput {
   price: Int!
   managerId: ID!
   status: ProjectStatus!
+  progress: Int
+  dueDate: DateTime!
 }
 
 input UpdateProjectInput {

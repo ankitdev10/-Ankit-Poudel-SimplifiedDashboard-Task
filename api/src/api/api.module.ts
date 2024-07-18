@@ -10,12 +10,12 @@ import { UserService } from "src/services/user.service";
 import { APP_GUARD } from "@nestjs/core";
 import { AuthGuard } from "./auth-guard";
 import { ProjectResolver } from "./resolvers/project.resolver";
-import { MetricsResolver } from "./resolvers/metrics.resolver";
 import { TransactionalConnection } from "src/services/common/transaction-connection.service";
 import { Project } from "src/entities/project.entity";
 import { PROJECTS, USERS } from "./dummydata";
 import { User } from "src/entities/user.entity";
 import { ProjectService } from "src/services/project.service";
+import { MetricsResolver } from "./resolvers/metrics.resolver";
 
 const resolvers = [UserResolver, ProjectResolver, MetricsResolver];
 

@@ -21,7 +21,7 @@ export class ProjectService {
 
   async createProject(ctx: RequestContext, input: CreateProjectInput) {
     const manager = await this.userService.findOneById(input.managerId);
-
+    console.log(manager, input.managerId);
     if (!manager) {
       throw new NotFoundException("Manager not found");
     }

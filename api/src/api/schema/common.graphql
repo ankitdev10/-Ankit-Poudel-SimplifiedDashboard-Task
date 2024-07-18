@@ -70,7 +70,7 @@ type Project implements Entity {
   createdAt: DateTime!
   updatedAt: DateTime!
   manager: User!
-  progess: Int!
+  progress: Int!
 }
 
 type ProjectList implements PaginatedList {

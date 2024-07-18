@@ -28,6 +28,6 @@ export class Project extends BaseEntity {
   @ManyToOne(() => User, (user: User) => user.projects)
   manager: User;
 
-  @Column({ default: 0 })
-  progess: number;
+  @Column()
+  progress: number;
 }
