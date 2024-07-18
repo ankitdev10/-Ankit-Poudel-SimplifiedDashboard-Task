@@ -1,6 +1,7 @@
 import { Overview } from "@/components/dashboard/overview";
 import { ProjectTable } from "@/components/dashboard/project-table";
 import { PROJECT_STATUSES } from "@/config/constants";
+import { ProjectStatus } from "@/generated/graphql";
 import { getProjects } from "@/lib/providers/project";
 
 export default async function Dashboard({
@@ -12,7 +13,7 @@ export default async function Dashboard({
     page?: string | null;
   };
 }) {
-  if (!PROJECT_STATUSES.some((status) => searchParams.status))
+  if (!PROJECT_STATUSES.some((status) => searchParams.status === status))
     searchParams.status = null;
 
   const data = await getProjects({
@@ -20,6 +21,9 @@ export default async function Dashboard({
       page: searchParams.page ? parseInt(searchParams.page) : null,
       limit: searchParams.limit ? parseInt(searchParams.limit) : null,
     },
+    status: searchParams.status
+      ? (searchParams.status as ProjectStatus)
+      : undefined,
   });
 
   return (

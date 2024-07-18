@@ -65,21 +65,21 @@ export class ProjectService {
 
   async findAll(input: ProjectListOptions) {
     // add a second arg to build method as options
-    const test = await this.connection.getRepository(Project).find({
-      relations: ["manager"],
-    });
-    console.log(test);
+    console.log(input);
     const skip = input?.pagination?.page
-      ? (input?.pagination?.page - 1) * input?.pagination?.limit
+      ? (input?.pagination?.page - 1) * (input?.pagination?.limit || 10)
       : 0;
 
+    console.log(skip);
     return await this.listQuery
       .build(Project, ["manager"])
       .skip(skip)
+      .andWhere(input.status ? "Project.status = :status" : "1 = 1", {
+        status: input.status || undefined,
+      })
+      .orderBy("Project.createdAt", "DESC")
       .take(input?.pagination?.limit ?? 10)
-
       .getManyAndCount()
-
       .then(([items, totalItems]) => ({
         items,
         totalItems,

@@ -9,9 +9,9 @@ import {
 import { ProjectsQuery, ProjectStatus } from "@/generated/graphql";
 import { Suspense } from "react";
 import { Card, CardContent, CardHeader } from "../ui/card";
-import { SelectFilter } from "./select-filter";
 import { Badge } from "../ui/badge";
 import ProgressCircle from "../progress-circle";
+import { ProjectFilters } from "./project-filters";
 interface ProjectTableProps {
   title: string;
   data: ProjectsQuery["projects"];
@@ -24,7 +24,9 @@ export const ProjectTable = ({ title, data }: ProjectTableProps) => {
           <div className="flex items-center justify-between">
             <h5>{title}</h5>
             <Suspense>
-              <SelectFilter />
+              <div className="flex gap-x-4 items-center">
+                <ProjectFilters />
+              </div>
             </Suspense>
           </div>
         </CardHeader>
