@@ -41,7 +41,6 @@ export class UserService {
       password: hashPw,
     });
     const userr = await this.connection.getRepository(User).save(user);
-    console.log({ userr });
 
     return user;
   }
@@ -72,7 +71,6 @@ export class UserService {
       },
     );
     ctx.res.header("auth-token", token);
-
     ctx.user = user;
     return user;
   }
@@ -87,11 +85,10 @@ export class UserService {
 
       user = await this.connection.getRepository(User).findOne({
         where: {
-          id: payload.id,
+          id: payload.user.id,
         },
       });
     } catch (err) {
-      console.log(err);
       throw new UnauthorizedException();
     }
 
@@ -99,7 +96,6 @@ export class UserService {
   }
 
   async me(ctx: RequestContext) {
-    console.log(ctx.user);
     return ctx.user;
   }
 

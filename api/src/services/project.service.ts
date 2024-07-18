@@ -21,7 +21,6 @@ export class ProjectService {
 
   async createProject(ctx: RequestContext, input: CreateProjectInput) {
     const manager = await this.userService.findOneById(input.managerId);
-    console.log(manager, input.managerId);
     if (!manager) {
       throw new NotFoundException("Manager not found");
     }
@@ -65,12 +64,10 @@ export class ProjectService {
 
   async findAll(input: ProjectListOptions) {
     // add a second arg to build method as options
-    console.log(input);
     const skip = input?.pagination?.page
       ? (input?.pagination?.page - 1) * (input?.pagination?.limit || 10)
       : 0;
 
-    console.log(skip);
     return await this.listQuery
       .build(Project, ["manager"])
       .skip(skip)
