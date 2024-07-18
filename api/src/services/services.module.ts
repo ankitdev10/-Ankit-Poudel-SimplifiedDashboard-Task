@@ -4,6 +4,7 @@ import { ListQueryBuilder } from "./common/list-query-builder";
 import { TransactionalConnection } from "./common/transaction-connection.service";
 import { UserService } from "./user.service";
 import { ProjectService } from "./project.service";
+import { MetricsService } from "./metrics.service";
 
 const services = [
   UserService,
@@ -11,6 +12,7 @@ const services = [
   ListQueryBuilder,
   JwtService,
   ProjectService,
+  MetricsService,
 ];
 @Module({
   imports: [],

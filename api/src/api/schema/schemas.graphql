@@ -9,9 +9,11 @@ type Mutation {
 }
 
 type Query {
+  me: User
   users: UserList!
   projects(options: ProjectListOptions): ProjectList!
   project(id: ID!): Project!
+  metrics: [MetricData]!
 }
 
 input CreateUserInput {
@@ -50,9 +52,13 @@ input UpdateProjectInput {
 }
 
 input ProjectListOptions {
-  name: String
+  pagination: PaginationOptions
   status: ProjectStatus
-  manager: ID!
+}
+
+input PaginationOptions {
+  page: Int
+  limit: Int
 }
 
 type UserList implements PaginatedList {
@@ -63,6 +69,11 @@ type UserList implements PaginatedList {
 type ProjectList implements PaginatedList {
   items: [Project!]!
   totalItems: Int!
+}
+
+type MetricData {
+  type: String!
+  value: String!
 }
 
 union CreateUserResult = User | UserAlreadyExistsError

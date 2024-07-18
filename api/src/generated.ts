@@ -66,6 +66,12 @@ export type InvalidCredentialsError = ErrorResult & {
 
 export type LoginResult = InvalidCredentialsError | User;
 
+export type MetricData = {
+  __typename?: 'MetricData';
+  type: Scalars['String']['output'];
+  value: Scalars['String']['output'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createProject: Project;
@@ -120,6 +126,11 @@ export type PaginatedList = {
   totalItems: Scalars['Int']['output'];
 };
 
+export type PaginationOptions = {
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+};
+
 export type Project = Entity & {
   __typename?: 'Project';
   createdAt: Scalars['DateTime']['output'];
@@ -141,8 +152,7 @@ export type ProjectList = PaginatedList & {
 };
 
 export type ProjectListOptions = {
-  manager: Scalars['ID']['input'];
-  name?: InputMaybe<Scalars['String']['input']>;
+  pagination?: InputMaybe<PaginationOptions>;
   status?: InputMaybe<ProjectStatus>;
 };
 
@@ -155,6 +165,8 @@ export enum ProjectStatus {
 
 export type Query = {
   __typename?: 'Query';
+  me?: Maybe<User>;
+  metrics: Array<Maybe<MetricData>>;
   project: Project;
   projects: ProjectList;
   users: UserList;

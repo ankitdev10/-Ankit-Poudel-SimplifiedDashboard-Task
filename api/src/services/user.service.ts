@@ -71,7 +71,7 @@ export class UserService {
         secret: this.configService.get<string>("JWT_SECRET"),
       },
     );
-    ctx.res.header("Authorization", `Bearer ${token}`);
+    ctx.res.header("auth-token", token);
 
     ctx.user = user;
     return user;
@@ -96,6 +96,11 @@ export class UserService {
     }
 
     return user;
+  }
+
+  async me(ctx: RequestContext) {
+    console.log(ctx.user);
+    return ctx.user;
   }
 
   async deleteUser(ctx: RequestContext, id: string) {

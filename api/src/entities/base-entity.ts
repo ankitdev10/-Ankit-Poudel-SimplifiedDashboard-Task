@@ -1,10 +1,10 @@
-import { ID } from 'src/common/types';
+import { ID } from "src/common/types";
 import {
   CreateDateColumn,
   DeepPartial,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
-} from 'typeorm';
+} from "typeorm";
 
 export abstract class BaseEntity {
   protected constructor(input?: DeepPartial<BaseEntity>) {
@@ -20,7 +20,7 @@ export abstract class BaseEntity {
     }
   }
 
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn()
   id: ID;
 
   @CreateDateColumn() createdAt: Date;

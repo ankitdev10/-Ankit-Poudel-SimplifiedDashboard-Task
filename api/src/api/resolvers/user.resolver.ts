@@ -41,6 +41,11 @@ export class UserResolver {
     return await this.userService.deleteUser(ctx, args.id);
   }
 
+  @Query()
+  async me(@Context() ctx: RequestContext) {
+    return await this.userService.me(ctx);
+  }
+
   @Mutation()
   async updateUser(
     @Context() ctx: RequestContext,

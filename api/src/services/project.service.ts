@@ -2,7 +2,11 @@ import { Injectable, NotFoundException } from "@nestjs/common";
 import { UserService } from "./user.service";
 import { TransactionalConnection } from "./common/transaction-connection.service";
 import { RequestContext } from "src/api/request-context";
-import { CreateProjectInput, UpdateProjectInput } from "src/generated";
+import {
+  CreateProjectInput,
+  ProjectListOptions,
+  UpdateProjectInput,
+} from "src/generated";
 import { Project } from "src/entities/project.entity";
 import { ListQueryBuilder } from "./common/list-query-builder";
 import { patchEntity } from "src/common/utils/patchEntity";
@@ -59,10 +63,23 @@ export class ProjectService {
     return await this.connection.getRepository(Project).findOneById(id);
   }
 
-  async findAll() {
-    return this.listQuery
-      .build(Project)
+  async findAll(input: ProjectListOptions) {
+    // add a second arg to build method as options
+    const test = await this.connection.getRepository(Project).find({
+      relations: ["manager"],
+    });
+    console.log(test);
+    const skip = input?.pagination?.page
+      ? (input?.pagination?.page - 1) * input?.pagination?.limit
+      : 0;
+
+    return await this.listQuery
+      .build(Project, ["manager"])
+      .skip(skip)
+      .take(input?.pagination?.limit ?? 10)
+
       .getManyAndCount()
+
       .then(([items, totalItems]) => ({
         items,
         totalItems,

@@ -3,7 +3,9 @@ import {
   MutationCreateProjectArgs,
   MutationDeleteProjectArgs,
   MutationUpdateProjectArgs,
+  ProjectListOptions,
   QueryProjectArgs,
+  QueryProjectsArgs,
 } from "src/generated";
 import { ProjectService } from "src/services/project.service";
 import { RequestContext } from "../request-context";
@@ -29,8 +31,8 @@ export class ProjectResolver {
   }
 
   @Query()
-  projects(@Context() ctx: RequestContext) {
-    return this.projectService.findAll();
+  projects(@Context() ctx: RequestContext, @Args() args: QueryProjectsArgs) {
+    return this.projectService.findAll(args.options);
   }
 
   @Query()
