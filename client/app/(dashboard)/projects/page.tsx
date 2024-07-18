@@ -30,7 +30,7 @@ export default async function Project({
   });
 
   return (
-    <section className="px-6 py-4 font-medium">
+    <section className="px-2 py-2 md:px-6 md:py-4 font-medium">
       <div className="flex justify-end">
         <Link href="/projects/new" className="">
           <Button className="mx-auto bg-primary-orange w-fit hover:bg-primary-orange/80">
@@ -39,7 +39,7 @@ export default async function Project({
           </Button>
         </Link>
       </div>
-      <ProjectTable title="Project Summary" data={data.projects} />
+      <ProjectTable title="Projects" data={data.projects} />
     </section>
   );
 }

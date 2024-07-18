@@ -9,8 +9,13 @@ export async function middleware(request: NextRequest) {
   //
   // TODO: add from query param
   //
+
   if (!cookies) {
     return NextResponse.redirect(new URL("/login", request.url));
+  } else {
+    if (request.nextUrl.pathname === "/login") {
+      return NextResponse.redirect(new URL("/dashboard", request.url));
+    }
   }
 
   const cookieStore = cookieParser.parse(cookies || "");

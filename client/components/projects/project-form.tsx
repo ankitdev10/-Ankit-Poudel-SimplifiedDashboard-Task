@@ -15,7 +15,9 @@ import {
 import { PROJECT_STATUSES } from "@/config/constants";
 import { ProjectStatus } from "@/generated/graphql";
 import { createProject } from "@/lib/providers/project";
+import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { CommandList } from "cmdk";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
@@ -42,8 +44,6 @@ import {
   SelectValue,
 } from "../ui/select";
 import { Textarea } from "../ui/textarea";
-import { cn } from "@/lib/utils";
-import { CommandList } from "cmdk";
 const createProjectSchema = z.object({
   name: z
     .string()
@@ -87,7 +87,6 @@ export const ProjectForm = ({
   });
 
   const onSubmit = async (values: LoginSchema) => {
-    console.log(values);
     startTransition(async () => {
       const res = await createProject({
         ...values,
@@ -104,7 +103,7 @@ export const ProjectForm = ({
 
   const rootError = form.formState.errors.root?.message;
   return (
-    <div className="p-8">
+    <div className="p-2 md:p-8">
       <Form {...form}>
         <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold">
           Create new Project
@@ -117,8 +116,8 @@ export const ProjectForm = ({
             control={form.control}
             name="name"
             render={({ field }) => (
-              <FormItem>
-                <FormLabel>Name</FormLabel>
+              <FormItem className="col-span-2 md:col-span-1">
+                <FormLabel className="hidden md:block">Name</FormLabel>
                 <FormControl>
                   <Input placeholder="Project Name" type="name" {...field} />
                 </FormControl>
@@ -131,7 +130,7 @@ export const ProjectForm = ({
             control={form.control}
             name="price"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="col-span-2 md:col-span-1">
                 <FormLabel>Price</FormLabel>
                 <FormControl>
                   <Input
@@ -151,7 +150,7 @@ export const ProjectForm = ({
             control={form.control}
             name="status"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="col-span-2 md:col-span-1">
                 <FormLabel>Status</FormLabel>
                 <FormControl>
                   <Select onValueChange={field.onChange}>
@@ -180,7 +179,10 @@ export const ProjectForm = ({
           />
           {data?.length && (
             <Popover open={open} onOpenChange={setOpen}>
-              <PopoverTrigger asChild>
+              <PopoverTrigger
+                asChild
+                className="col-span-2 md:col-span-1 justify-between"
+              >
                 <Button
                   variant="outline"
                   role="combobox"
@@ -200,12 +202,10 @@ export const ProjectForm = ({
                   <CommandGroup>
                     {data?.length &&
                       data?.map((user) => (
-                        <CommandList>
+                        <CommandList key={user?.value}>
                           <CommandItem
-                            key={user?.value}
                             value={user?.value}
                             onSelect={() => {
-                              console.log(user.value);
                               setValue(user.value === value ? "" : user.value);
                               setOpen(false);
                             }}
@@ -231,7 +231,7 @@ export const ProjectForm = ({
             control={form.control}
             name="progress"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="col-span-2 md:col-span-1">
                 <FormLabel>Progress</FormLabel>
                 <FormControl>
                   <Input

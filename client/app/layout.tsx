@@ -14,6 +14,7 @@ const poppins = Poppins({
   weight: ["300", "400", "500", "600", "700"],
   variable: "--font-poppins",
 });
+export const dynamic = "force-dynamic";
 
 export default function RootLayout({
   children,

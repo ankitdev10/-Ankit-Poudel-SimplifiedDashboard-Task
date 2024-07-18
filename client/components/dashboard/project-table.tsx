@@ -18,13 +18,13 @@ interface ProjectTableProps {
 }
 export const ProjectTable = ({ title, data }: ProjectTableProps) => {
   return (
-    <section className="px-6 py-4 font-medium">
+    <section className="px-2 py-2 md:px-2 md:py-2 font-medium">
       <Card className="bg-card-offwhite">
         <CardHeader className="">
           <div className="flex items-center justify-between">
-            <h5>{title}</h5>
+            <h5 className="hidden md:block">{title}</h5>
             <Suspense>
-              <div className="flex gap-x-4 items-center">
+              <div className="flex gap-x-1 md:gap-x-4 items-center">
                 <ProjectFilters />
               </div>
             </Suspense>
@@ -41,9 +41,9 @@ export const ProjectTable = ({ title, data }: ProjectTableProps) => {
                 <TableHead>Progress</TableHead>
               </TableRow>
             </TableHeader>
-            <TableBody>
+            <TableBody className="p-0">
               {data.items.map((project) => (
-                <TableRow key={project.id}>
+                <TableRow className="p-0" key={project.id}>
                   <TableCell className="font-semibold">
                     {project.name}
                   </TableCell>

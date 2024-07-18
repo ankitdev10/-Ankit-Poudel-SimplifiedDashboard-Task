@@ -32,7 +32,7 @@ export const ProjectFilters = () => {
         }}
         defaultValue={searchParams.get("status") ?? ""}
       >
-        <SelectTrigger className="w-[180px]">
+        <SelectTrigger className="">
           <SelectValue placeholder="Status" />
         </SelectTrigger>
         <SelectContent>

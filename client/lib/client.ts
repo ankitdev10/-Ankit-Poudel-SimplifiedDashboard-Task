@@ -19,7 +19,6 @@ const afterwareLink = new ApolloLink((operation, forward) =>
       const cookieStore = cookies();
 
       const token = headers.get(AUTH_TOKEN_KEY);
-      console.log("token:  got ", token);
       if (token) {
         cookieStore.set(AUTH_TOKEN_KEY, token);
       }
@@ -33,7 +32,6 @@ export const { getClient } = registerApolloClient(() => {
   const cookieStore = cookies();
   const token = cookieStore.get(AUTH_TOKEN_KEY)?.value;
 
-  console.log("token: ", token);
   return new ApolloClient({
     cache: new InMemoryCache(),
     link: ApolloLink.from([

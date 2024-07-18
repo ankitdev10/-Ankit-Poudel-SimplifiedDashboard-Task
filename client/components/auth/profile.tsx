@@ -25,7 +25,7 @@ export const Profile = async () => {
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
           </div>
-          <div className="text-black">
+          <div className="hidden md:block text-black">
             <div className="flex flex-col text-xs">
               <span>
                 {data?.firstName} {data?.lastName}

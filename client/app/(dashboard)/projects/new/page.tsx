@@ -5,7 +5,7 @@ import { users } from "@/lib/providers/auth";
 export default async function NewProject() {
   const data = await users();
   return (
-    <section className="px-6 py-4 font-medium">
+    <section className="md:px-6 md:py-4 px-2 py-2 font-medium">
       <Card>
         <CardHeader className="">
           <div className="flex items-center justify-between">

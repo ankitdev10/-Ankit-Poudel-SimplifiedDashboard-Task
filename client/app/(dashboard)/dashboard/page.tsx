@@ -27,7 +27,7 @@ export default async function Dashboard({
   });
 
   return (
-    <section className="px-6 py-4 font-medium">
+    <section className="px-2 py-2  md:px-6 md:py-4 font-medium">
       <Overview />
       <ProjectTable title="Project Summary" data={data.projects} />
     </section>
